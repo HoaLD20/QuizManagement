@@ -54,15 +54,13 @@ public class TakeQuiz extends BaseServlet {
             String request = req.getParameter("req");
             qm = new QuestionModel();
             if (request.equals("quizReq")) {
-//                System.out.println("ahihi");
                 questionRequest(req, resp);
             } else if (request.equals("quizResult")) {
                 questionResult(req, resp);
             }
 
             req.setAttribute("page", page);
-            getServletContext().getRequestDispatcher("/index.jsp")
-                    .forward(req, resp);
+            getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
         } catch (Exception ex) {
             Logger.getLogger(TakeQuiz.class.getName()).log(Level.SEVERE, null, ex);
             getServletContext().getRequestDispatcher("/errorPage/errorPage.jsp")
@@ -71,28 +69,39 @@ public class TakeQuiz extends BaseServlet {
     }
 
     public void questionRequest(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        int numOfQuiz = Integer.parseInt(req.getParameter("numOfQuiz"));
-        req.setAttribute("savedNumOfQuiz", numOfQuiz);
-        if ((numOfQuiz <= 0)) {
-            req.setAttribute("message", "Error! Quiz number must be larger than 0");
-            page = "takeQuiz/quizPrepare.jsp";
-        } else if (numOfQuiz > qm.getQuestions().size()) {
-            req.setAttribute("message", "Error! There is not enough quiz to take");
-            page = "takeQuiz/quizPrepare.jsp";
-        } else {
-            List<Integer> questionIndexs = new ArrayList<>();
-            for (int i = 0; i < qm.getQuestions().size(); i++) {
-                questionIndexs.add(i);
-            }
-            Collections.shuffle(questionIndexs);
-            List<Question> returnQuestion = new ArrayList<>();
-            for (int i = 0; i < numOfQuiz; i++) {
-                returnQuestion.add(qm.getQuestions().get(questionIndexs.get(i)));
-            }
 
-            req.setAttribute("quizData", returnQuestion);
-            req.setAttribute("quizData", returnQuestion);
-            page = "takeQuiz/quizPage.jsp";
+//        if (req.getParameter("numOfQuiz").equals("") || req.getParameter("numOfQuiz").isEmpty()) {
+//            req.setAttribute("message", "Empty ! You must input a number!");
+//            page = "takeQuiz/quizPrepare.jsp";
+//        } 
+        int numOfQuiz;
+        try {
+            numOfQuiz = Integer.parseInt(req.getParameter("numOfQuiz"));
+            req.setAttribute("savedNumOfQuiz", numOfQuiz);
+            
+            if ((numOfQuiz <= 0)) {
+                req.setAttribute("message", "Error! Quiz number must be larger than 0");
+                page = "takeQuiz/quizPrepare.jsp";
+            } else if (numOfQuiz > qm.getQuestions().size()) {
+                req.setAttribute("message", "Error! There is not enough quiz to take");
+                page = "takeQuiz/quizPrepare.jsp";
+            } else {
+                List<Integer> questionIndexs = new ArrayList<>();
+                for (int i = 0; i < qm.getQuestions().size(); i++) {
+                    questionIndexs.add(i);
+                }
+                Collections.shuffle(questionIndexs);
+                List<Question> returnQuestion = new ArrayList<>();
+                for (int i = 0; i < numOfQuiz; i++) {
+                    returnQuestion.add(qm.getQuestions().get(questionIndexs.get(i)));
+                }
+                req.setAttribute("quizData", returnQuestion);
+                req.setAttribute("quizData", returnQuestion);
+                page = "takeQuiz/quizPage.jsp";
+            }
+        } catch (Exception e) {
+            req.setAttribute("message", "Empty ! You must input a number!");
+            page = "takeQuiz/quizPrepare.jsp";
         }
     }
 
@@ -108,7 +117,6 @@ public class TakeQuiz extends BaseServlet {
         for (int i = 0; i < numOfQuiz; i++) {
             int id = Integer.parseInt(req.getParameter("q" + String.valueOf(i)));
             Question question = qm.findQuestionById(id);
-
             String answer = "";
             for (int j = 0; j < 4; j++) {
                 String answerId = "ans" + String.valueOf(i) + "-" + String.valueOf(j);
@@ -121,11 +129,9 @@ public class TakeQuiz extends BaseServlet {
                 mark++;
             }
         }
-
         QuizHistoryModel qhm = new QuizHistoryModel();
         int userId = Integer.parseInt(req.getSession().getAttribute("userId").toString());
         qhm.addEntry(userId, numOfQuiz, (int) mark);
-
         NumberFormat formatter = new DecimalFormat("#0.00");
         mark = (mark / (double) numOfQuiz) * 10;
         double percent = mark * 10;
