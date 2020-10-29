@@ -23,7 +23,7 @@
             this.testing = 0;
             this.numOfQuiz = 0;
 
-            var nextQuestion = function () {
+            function nextQuestion() {
                 currentQuiz = (currentQuiz + 1) % numOfQuiz;
                 if (this.currentDiv !== null)
                     this.currentDiv.classList.add("hidden");
@@ -32,7 +32,7 @@
                 questionPos.textContent = "Question: " + (currentQuiz + 1) + "/" + numOfQuiz;
             }
 
-            var quizStart = function () {
+            function quizStart () {
                 testing = 1;
                 nextQuestion();
                 setInterval(function () {
@@ -45,7 +45,7 @@
                 }, 1000);
             }
 
-            var updateTime = function () {
+            function updateTime() {
                 var time = Math.floor(timeRemaining / 60);
                 var sec = timeRemaining % 60;
                 timeDisplay.textContent = time + ":" + sec;
@@ -56,7 +56,7 @@
                     return "Are you sure?";
             }
 
-            var setNumOfQuiz = function (n) {
+            function setNumOfQuiz(n) {
                 numOfQuiz = n;
                 this.timeRemaining = 60;
                 this.timeDisplay = document.getElementById("timeDisplay");
@@ -73,42 +73,62 @@
         <title>Online Quiz</title>
     </head>
     <body>
-        <div id="quizContainer">
-            <% if (!questions.isEmpty()) {%>
-            <h3>Welcome <span class="userName"><%=userName%></span></h3>
-            <h4 id="TimeSpan">Time remaining: <span id="timeDisplay">00:00</span></h4>
-            <h5 id="qustionPos">Question: 0/0</h5>
-            <form id="quizForm" action="TakeQuiz" method="post">
-                <input type="hidden" name="req" value="quizResult">
-                <input type="hidden" name="numOfQuiz" value="<%=questions.size()%>">
-                <%
-                    for (int i = 0; i < questions.size(); i++) {
-                        Question q = questions.get(i);
-                %>
-                <div id="q<%=i%>" class="hidden">
-                    <input type="hidden" name="q<%=i%>" value="<%=q.getId()%>"
-                           <p><%=q.getContent()%></p>
-                    <ul>
-                        <%
-                            for (int j = 0; j < q.getOption().size(); j++) {
-                                String ans = q.getOption().get(j);
-                        %>
-                        <input type="checkbox" name="ans<%=i%>-<%=j%>">
-                        <li><%=ans%></li><br>
-                            <% } %>
-                    </ul>
+        <div class="container" style="padding-top: 60px">
+            <div class="card">
+                <div class="card-header">
+                    <% if (!questions.isEmpty()) {%>
+                    <div class="row">
+                        <div class="col">
+                            <h4 id="TimeSpan">Welcome <%=userName%> !</h4> 
+                        </div>
+                        <div class="col">
+                            <h5 style="text-align: right">Time remaining: <span id="timeDisplay">00:00</span></h5>
+                        </div>
+                    </div>
+                    <h5 id="qustionPos">Question: 0/0</h5>
+                    <%}%>
                 </div>
-                <% } %>
-                <input type="submit" value="Finish">    
-                <button id="next" type="button" onclick="nextQuestion()">Next</button>
-            </form>
-            <% } else { %>
-            <h3>No quiz found</h3>
-            <% }%>
+                <div class="card-body">
+                    <% if (!questions.isEmpty()) {%>
+                    <form id="quizForm" action="TakeQuiz" method="post">
+                        <ul class="list-group list-group-flush">
+                            <input type="hidden" name="req" value="quizResult"/>
+                            <input type="hidden" name="numOfQuiz" value="<%=questions.size()%>"/>
+                            <%
+                                for (int i = 0; i < questions.size(); i++) {
+                                    Question q = questions.get(i);
+                            %>
+                            <div id="q<%=i%>" class="hidden">
+                                <input type="hidden" name="q<%=i%>" value="<%=q.getId()%>"/>
+                                <li class="list-group-item">
+                                    <p><%=(i + 1) +". "+ q.getContent()%></p>
+                                </li>
+                                <%
+                                    for (int j = 0; j < q.getOption().size(); j++) {
+                                        String ans = q.getOption().get(j);
+                                %>
+                                <li class="list-group-item">
+                                    <input type="checkbox" name="ans<%=i%>-<%=j%>">
+                                    <%=ans%>
+                                </li>
+                                <% } %>
+                            </div>
+                            <% } %>
+                        </ul>
+                        <br/>
+                        <input type="submit" class="btn btn-primary btn-customized" value="Finish"/>
+                    </form>
+                   
+                    <% } else { %>
+                    <h3>No quiz found !</h3>
+                    <% }%>
+                </div>
+                <script>
+                    setNumOfQuiz(<%=questions.size()%>);
+                    quizStart();
+                </script>
+            </div>
         </div>
-        <script>
-            setNumOfQuiz(<%=questions.size()%>);
-            quizStart();
-        </script>
-    </body>
+    </div>
+</body>
 </html>

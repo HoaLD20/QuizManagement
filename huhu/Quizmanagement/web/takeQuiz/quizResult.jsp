@@ -23,16 +23,31 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <p>Your score: 
-            <span class="bold <%=className%>">
-                <%=result%> (<%=percent%>%) - <%=status%>
-            </span>
-        </p>
-        <form action="TakeQuiz" method="post">
-            <input type="hidden" name="req" value="quizReq">
-            <input id="resultText" type="hidden" name="numOfQuiz" value="<%=numOfQuiz%>">
-            <br>Take another quiz 
-            <input type="submit" value="Start">
-        </form>
+
+        <div class="container" style="padding-top: 60px">
+            <div class="card">
+                <div class="card-header">
+                    Result
+                </div>
+                <div class="card-body">
+                    <p>Your score: 
+                        <span class="bold <%=className%>">
+                            <%=result%> (<%=percent%>%) - <%=status%>
+                        </span>
+                    </p>
+                    <form action="TakeQuiz" method="post">
+                        <input type="hidden" name="req" value="quizReq">
+                        <input id="resultText" type="hidden" name="numOfQuiz" value="<%=numOfQuiz%>">
+                        Take another quiz 
+                        <input type="submit" class="btn btn-primary" value="Start">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
     </body>
 </html>
