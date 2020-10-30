@@ -27,7 +27,7 @@
     </head>
     <body>
 
-        <form action="#" method="post">
+        <form action="#" method="post" class="RFjuSb bxPAYd k6Zj8d">
             <div class="container-fluid bg-light py-3">
                 <div class="row">
                     <div class="col-md-6 mx-auto">
@@ -49,9 +49,30 @@
                                         <option value="1" <%=(type == 1) ? "selected" : ""%>>Teacher</option>
                                     </select>
                                 </div>
+
+
+                               
+
+
+
+
+
+
+
+
+
+
                                 <div class="form-group">
-                                    <input class="form-control input-lg" placeholder="Email" name="email" value="<%=email%>" type="email">
+                                    <input class="form-control input-lg" placeholder="Email" name="email" type="email" value="<%=email%>" >
                                 </div>
+
+
+
+
+
+
+
+
                                 <input class="btn btn-lg btn-primary btn-block" value="Sign Me Up" type="submit" value="Register">
                                 <br>
 
