@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 29, 2020 at 03:48 AM
+-- Generation Time: Nov 03, 2020 at 09:02 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.9
 
@@ -35,7 +35,7 @@ CREATE TABLE `question` (
   `op3` varchar(100) NOT NULL,
   `op4` varchar(100) NOT NULL,
   `answer` varchar(100) NOT NULL,
-  `created` date NOT NULL DEFAULT current_timestamp()
+  `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -43,8 +43,11 @@ CREATE TABLE `question` (
 --
 
 INSERT INTO `question` (`id`, `content`, `op1`, `op2`, `op3`, `op4`, `answer`, `created`) VALUES
-(12, 'who i am i?', 'hoa', 'b', 'v', 'c', '1', '2020-10-28'),
-(13, 'where is can tho?', 'viet nam', 'campuchia', 'thailan', 'laos', '1', '2020-10-28');
+(12, 'who i am i?', 'hoa', 'b', 'v', 'c', '1', '2020-10-27 17:00:00'),
+(13, 'where is can tho?', 'viet nam', 'campuchia', 'thailan', 'laos', '1', '2020-10-27 17:00:00'),
+(14, 'a', 'a', 'a', 'a', 'a', '1', '2020-11-03 07:59:38'),
+(15, 'c', 'c', 'c', 'c', 'c', '1', '2020-11-03 08:00:18'),
+(16, 'd', 'd', 'd', 'd', 'd', '3', '2020-11-03 08:00:27');
 
 -- --------------------------------------------------------
 
@@ -72,7 +75,8 @@ INSERT INTO `quizhistory` (`id`, `studentId`, `numOfQuiz`, `correctAnswer`) VALU
 (9, 6, 3, 3),
 (10, 5, 1, 1),
 (11, 5, 2, 2),
-(12, 5, 2, 2);
+(12, 5, 2, 2),
+(14, 6, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -126,13 +130,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `quizhistory`
 --
 ALTER TABLE `quizhistory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `users`
