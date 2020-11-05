@@ -66,38 +66,36 @@ public class QuestionModel {
         return questions;
     }
 
-    public List<Question> getQuestionsInRange(int from, int to) throws Exception, ParseException, ClassNotFoundException {
-        List<Question> questions = new ArrayList<>();
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DbConnectionHelp.getConnection();
-            String query = "select * from question limit ?,? ";
-            statement = connection.prepareStatement(query);
-            statement.setInt(1, from - 1);
-            statement.setInt(2, to);
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Question q = new Question(resultSet.getInt("id"), resultSet.getString("content"), resultSet.getString("answer"), formatter.parse(resultSet.getString("created")));
-                q.addOption(resultSet.getString("op1"));
-                q.addOption(resultSet.getString("op2"));
-                q.addOption(resultSet.getString("op3"));
-                q.addOption(resultSet.getString("op4"));
-                questions.add(q);
-            }
-        } catch (SQLException | ParseException ex) {
-            throw ex;
-        } finally {
-            if ((resultSet != null) && (!resultSet.isClosed())) {
-                resultSet.close();
-            }
-            if ((statement != null) && (!statement.isClosed())) {
-                statement.close();
-            }
-            DbConnectionHelp.closeConnection(connection);
-        }
-        return questions;
-    }
+//    public List<Question> getQuestionsInRange() throws Exception, ParseException, ClassNotFoundException {
+//        List<Question> questions = new ArrayList<>();
+//        PreparedStatement statement = null;
+//        ResultSet resultSet = null;
+//        try {
+//            connection = DbConnectionHelp.getConnection();
+//            String query = "select * from question";
+//            statement = connection.prepareStatement(query);
+//            resultSet = statement.executeQuery();
+//            while (resultSet.next()) {
+//                Question q = new Question(resultSet.getInt("id"), resultSet.getString("content"), resultSet.getString("answer"), formatter.parse(resultSet.getString("created")));
+//                q.addOption(resultSet.getString("op1"));
+//                q.addOption(resultSet.getString("op2"));
+//                q.addOption(resultSet.getString("op3"));
+//                q.addOption(resultSet.getString("op4"));
+//                questions.add(q);
+//            }
+//        } catch (SQLException | ParseException ex) {
+//            throw ex;
+//        } finally {
+//            if ((resultSet != null) && (!resultSet.isClosed())) {
+//                resultSet.close();
+//            }
+//            if ((statement != null) && (!statement.isClosed())) {
+//                statement.close();
+//            }
+//            DbConnectionHelp.closeConnection(connection);
+//        }
+//        return questions;
+//    }
 
     public void addQueston(Question q) throws Exception {
         PreparedStatement statement = null;
@@ -180,6 +178,7 @@ public class QuestionModel {
             resultSet = statement.executeQuery();
             resultSet.next();
             returnValue = resultSet.getInt("size");
+           
         } catch (Exception ex) {
             throw ex;
         } finally {

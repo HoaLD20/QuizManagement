@@ -118,7 +118,6 @@ public class TakeQuiz extends BaseServlet {
                     answer += String.valueOf(j + 1);
                 }
             }
-            System.out.println("answer: " + answer);
             if (question.getAnswer().equals(answer)) {
                 mark++;
             }

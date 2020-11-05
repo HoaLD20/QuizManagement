@@ -6,7 +6,6 @@
     List<Question> questions = (List<Question>) request.getAttribute("quizData");
     int numOfQuiz = Integer.parseInt(request.getAttribute("numOfQuiz").toString());
     int numOfPage = Integer.parseInt(request.getAttribute("numOfPage").toString());
-    int currentPage = (request.getParameter("p") == null) ? 1 : Integer.parseInt(request.getParameter("p"));
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MMMM-yyyy");
 %>
 <!DOCTYPE html>
@@ -14,10 +13,10 @@
     <head>
         <script>
 
-            function delQuestion(page, id) {
+            function delQuestion( id) {
                 result = confirm("Are you sure to delete this question ?");
                 if (result)
-                    window.location.replace("ManageQuiz?p=" + page + "&del=" + id);
+                    window.location.replace("ManageQuiz?del=" + id);
             }
         </script>
         <link rel="stylesheet" type="text/css" href="resource/bootstrap-4.0.0/dist/css/bootstrap.css">
@@ -49,7 +48,7 @@
                         <th scope="row"><%=a += 1%></th>
                         <td><%=q.getContent()%></td>
                         <td><%=formatter.format(q.getCreated())%></td>
-                        <td><a class="btn btn-primary btn-customized" href="#" onclick="delQuestion('<%=currentPage%>', '<%=q.getId()%>')" role="button" aria-pressed="true">Delete</a></td>
+                        <td><a class="btn btn-primary btn-customized" href="#" onclick="delQuestion('<%=q.getId()%>')" role="button" aria-pressed="true">Delete</a></td>
                     </tr>
                     <% } %>
                 </tbody>

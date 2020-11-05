@@ -31,7 +31,7 @@ public class ManageQuiz extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         QuestionModel qm = null;
-        int page = (request.getParameter("p") == null) ? 1 : Integer.parseInt(request.getParameter("p"));
+        //int page = (request.getParameter("p") == null) ? 1 : Integer.parseInt(request.getParameter("p"));
         try {
             qm = new QuestionModel();
             String req = (String) request.getParameter("del");
@@ -40,7 +40,7 @@ public class ManageQuiz extends BaseServlet {
                 qm.deleteQueston(id);
             }
             int size = qm.getQuestionSize();
-            request.setAttribute("quizData", getPage(qm, size, PAGE_SIZE, page));
+            request.setAttribute("quizData",qm.getQuestions());
             request.setAttribute("numOfQuiz", size);
             request.setAttribute("numOfPage", getNumOfPage(size, PAGE_SIZE));
 
@@ -65,11 +65,11 @@ public class ManageQuiz extends BaseServlet {
         return (int) Math.ceil((double) listSize / (double) pageSize);
     }
 
-    private List<Question> getPage(QuestionModel qm, int listSize, int pageSize, int pageNum) throws Exception {
-        int numOfPage = getNumOfPage(listSize, pageSize);
-        pageNum = (pageNum < numOfPage) ? pageNum - 1 : numOfPage - 1;
-        int from = (pageNum * pageSize) + 1;
-        int to = Math.min(((pageNum + 1) * pageSize), listSize) + 1;
-        return qm.getQuestionsInRange(from, to);
-    }
+//    private List<Question> getPage(QuestionModel qm, int listSize, int pageSize) throws Exception {
+//        int numOfPage = getNumOfPage(listSize, pageSize);
+//        //pageNum = (pageNum < numOfPage) ? pageNum - 1 : numOfPage - 1;
+//        int from = (pageNum * pageSize) + 1;
+//        int to = Math.min(((pageNum + 1) * pageSize), listSize) + 1;
+//        return qm.getQuestionsInRange(from, to);
+//    }
 }

@@ -12,30 +12,31 @@
         <script>
             this.timeRemaining = 60;
             this.timeDisplay = document.getElementById("timeDisplay");
-            this.questionPos = document.getElementById("qustionPos");
+           // this.questionPos = document.getElementById("qustionPos");
+           this.quizForm = document.getElementById("quizForm");
             this.currentQuiz = 0;
             this.currentDiv = null;
             this.testing = 0;
             this.numOfQuiz = 0;
 
-            function nextQuestion() {
-                currentQuiz = (currentQuiz + 1) % numOfQuiz;
-                if (this.currentDiv !== null)
-                    this.currentDiv.classList.add("hidden");
-                currentDiv = document.getElementById("q" + currentQuiz);
-                currentDiv.classList.remove("hidden");
-                questionPos.textContent = "Question: " + (currentQuiz + 1) + "/" + numOfQuiz;
-            }
+//            function nextQuestion() {
+//                currentQuiz = (currentQuiz + 1) % numOfQuiz;
+//                if (this.currentDiv !== null)
+//                    this.currentDiv.classList.add("hidden");
+//                currentDiv = document.getElementById("q" + currentQuiz);
+//                currentDiv.classList.remove("hidden");
+//                questionPos.textContent = "Question: " + (currentQuiz + 1) + "/" + numOfQuiz;
+//            }
 
             function quizStart () {
                 testing = 1;
-                nextQuestion();
-                setInterval(function () {
+                setInterval(
+                        function () {
                     timeRemaining--;
                     updateTime();
-                    if (timeRemaining < 0) {
+                    if (timeRemaining <= 0) {
                         testing = 0;
-                        document.getElementById("quizForm").submit();
+                        quizForm.submit();
                     }
                 }, 1000);
             }
@@ -55,7 +56,8 @@
                 numOfQuiz = n;
                 this.timeRemaining = 60;
                 this.timeDisplay = document.getElementById("timeDisplay");
-                this.questionPos = document.getElementById("qustionPos");
+//                this.questionPos = document.getElementById("qustionPos");
+                this.quizForm= document.getElementById("quizForm");
                 this.currentQuiz = 0;
                 this.currentDiv = null;
                 this.testing = 0;
@@ -77,7 +79,7 @@
                             <h4 id="TimeSpan">Welcome <%=userName%> !</h4> 
                         </div>
                         <div class="col">
-                            <h5 style="text-align: right">Time remaining: <span id="timeDisplay">00:00</span></h5>
+                            <h5 style="text-align: right">Time remaining: <span id="timeDisplay">00:60</span></h5>
                         </div>
                     </div>
                     <h5>Number of question: <%=questions.size()%></h5>
@@ -118,6 +120,7 @@
                     <h3>No quiz found !</h3>
                     <% }%>
                 </div>
+                
                 <script>
                     setNumOfQuiz(<%=questions.size()%>);
                     quizStart();
